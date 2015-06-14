@@ -1,0 +1,2 @@
+module DepartureTimesHelper
+end
