@@ -1,12 +1,14 @@
 <div class="container">
 	<h2>Your IP address is:</h2>
-	<%= @ip_address %>
+	<%= @distance %>
+	<%= @location %>
 
 	<ul>
-	<!-- <% @station_list['root']['stations']['station'].each do |station| %>
+	<% @station_list['root']['stations']['station'].each do |station| %>
 		<li><%= station['name'] %>, <%= station['abbr'] %>, <%= station['gtfs_latitude'] %>,
 			  <%= station['gtfs_longitude'] %></li>
-	<% end %> -->
-	<%= @ip_address.first.state %>
+	<% end %>
+	<!-- <%= @location.first.latitude %>
+	<%= @location.first.longitude %> -->
 	</ul>
 </div>
