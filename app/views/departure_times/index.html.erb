@@ -1,5 +1,20 @@
 <div class="container">
-	<h2>Departures from <%= @station_code['name'] %></h2>
+	<h2>Departures from <%= @station_code %></h2>
+
+	<form method="GET">
+		<select name="station_code">
+			<% @station_list['root']['stations']['station'].each do |station| %>
+				<% if params[:station_code] == station['abbr']%>
+					<option value="<%= station['abbr'] %>" selected="selected" ><%= station['name'] %></option>
+				<% else %>
+					<option value="<%= station['abbr'] %>" ><%= station['name'] %></option>
+				<% end %>
+			<% end %>
+		</select>
+		<input type="submit" class="btn btn-primary" value="Select Station">
+		<a class="btn btn-info" href="/">Show Trains for Closest Location</a>
+	</form>
+
 
 	<table class="table">
 	<thead>
@@ -12,12 +27,14 @@
 	</thead>
 	<% @departures['root']['station']['item'].each do |departure| %>
 	<tbody>
-		<tr>
-			<td><%= departure['trainHeadStation'] %></td>
-			<td><%= departure['origTime'] %></td>
-			<td><%= departure['destTime'] %></td>
-			<td><%= departure['trainIdx'] %></td>
-		</tr>
+		<% if departure['origTime'].to_time >= Time.now %>
+			<tr>
+				<td><%= departure['trainHeadStation'] %></td>
+				<td><%= departure['origTime'] %></td>
+				<td><%= departure['destTime'] %></td>
+				<td><%= departure['trainIdx'] %></td>
+			</tr>
+		<% end %>
 	<% end %>
 	</tbody>
 	</table>
