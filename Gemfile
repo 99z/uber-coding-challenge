@@ -35,6 +35,12 @@ gem "geocoder"
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# Use crack for XML parsing
+gem 'crack'
+
+# Use HTTParty for api calls
+gem 'httparty'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -47,9 +53,8 @@ group :development, :test do
 end
 
 # Added by Trevor Elwell. I love better errors, it really helps debug.
-# Oh, and pry too. 
+# Oh, and pry too.
 group :development do
   gem "better_errors"
   gem "pry"
 end
-

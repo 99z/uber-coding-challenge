@@ -1,4 +1,11 @@
 <div class="container">
 	<h2>Your IP address is:</h2>
 	<%= @ip_address %>
+
+	<ul>
+	<% @station_list['root']['stations'].each do |key, value| %>
+		<li><%= key['name'] %>, <%= key['abbr'] %>, <%= key['gtfs_latitude'] %>,
+			  <%= key['gtfs_longitude'] %></li>
+	<% end %>
+	</ul>
 </div>
