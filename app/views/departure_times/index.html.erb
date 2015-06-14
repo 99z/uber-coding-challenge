@@ -3,9 +3,11 @@
 	<%= @ip_address %>
 
 	<ul>
-	<% @station_list['root']['stations'].each do |key, value| %>
-		<li><%= key['name'] %>, <%= key['abbr'] %>, <%= key['gtfs_latitude'] %>,
-			  <%= key['gtfs_longitude'] %></li>
-	<% end %>
+	<!-- <% @station_list['root']['stations']['station'].each do |station| %>
+		<li><%= station['name'] %>, <%= station['abbr'] %>, <%= station['gtfs_latitude'] %>,
+			  <%= station['gtfs_longitude'] %></li>
+	<% end %> -->
+	<%= @ip_address.latitude %>
+	<%= @ip_address.longitude %>
 	</ul>
 </div>
