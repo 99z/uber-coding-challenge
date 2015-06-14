@@ -1,8 +1,8 @@
 class DepartureTimesController < ApplicationController
 	include DepartureTimesHelper
 	def index
-		@ip = IP.new
-		@location = Geocoder.search(@ip.remote_ip(request.remote_ip))
+		# @ip = IP.new
+		# @location = Geocoder.search(@ip.remote_ip(request.remote_ip))
 
 
 		@lat = 37.362161

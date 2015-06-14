@@ -7,7 +7,7 @@ module DepartureTimesHelper
   	closest_station = {:distance => 0}
   	station_list['root']['stations']['station'].each do |station|
   		if distance(@lat, @lon, station['gtfs_latitude'].to_f, station['gtfs_longitude'].to_f) < closest_station[:distance]
-  			closest_station[:distance]
+  			dl
   		end
   	end
   end
