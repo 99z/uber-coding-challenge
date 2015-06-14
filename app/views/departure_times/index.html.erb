@@ -1,26 +1,22 @@
 <div class="container">
-	<h2>Your IP address is:</h2>
-	<%= "#{@distance} miles" %>
-	<%= @location %>
+	<h2>Departures from <%= @station_code['name'] %></h2>
 
 	<table class="table">
 	<thead>
 		<tr>
-			<td><b>Station Name</b></td>
 			<td><b>Abbr.</b></td>
-			<td><b>Latitude</b></td>
-			<td><b>Longitude</b></td>
-			<td><b>Distance</b></td>
+			<td><b>Departure time from <%= @station_code['abbr'] %></b></td>
+			<td><b>Arrival time</b></td>
+			<td><b>Train number</b></td>
 		</tr>
 	</thead>
-	<% @station_list['root']['stations']['station'].each do |station| %>
+	<% @departures['root']['station']['item'].each do |departure| %>
 	<tbody>
 		<tr>
-			<td><%= station['name'] %></td> 
-			<td><%= station['abbr'] %></td> 
-			<td><%= station['gtfs_latitude'] %></td>
-			<td><%= station['gtfs_longitude'] %></td>
-			<td><%= distance(@lat, @lon, station['gtfs_latitude'].to_f, station['gtfs_longitude'].to_f)%></td>
+			<td><%= departure['trainHeadStation'] %></td>
+			<td><%= departure['origTime'] %></td>
+			<td><%= departure['destTime'] %></td>
+			<td><%= departure['trainIdx'] %></td>
 		</tr>
 	<% end %>
 	</tbody>
