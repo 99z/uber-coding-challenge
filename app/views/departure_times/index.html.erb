@@ -1,14 +1,28 @@
 <div class="container">
 	<h2>Your IP address is:</h2>
-	<%= @distance %>
+	<%= "#{@distance} miles" %>
 	<%= @location %>
 
-	<ul>
+	<table class="table">
+	<thead>
+		<tr>
+			<td><b>Station Name</b></td>
+			<td><b>Abbr.</b></td>
+			<td><b>Latitude</b></td>
+			<td><b>Longitude</b></td>
+			<td><b>Distance</b></td>
+		</tr>
+	</thead>
 	<% @station_list['root']['stations']['station'].each do |station| %>
-		<li><%= station['name'] %>, <%= station['abbr'] %>, <%= station['gtfs_latitude'] %>,
-			  <%= station['gtfs_longitude'] %></li>
+	<tbody>
+		<tr>
+			<td><%= station['name'] %></td> 
+			<td><%= station['abbr'] %></td> 
+			<td><%= station['gtfs_latitude'] %></td>
+			<td><%= station['gtfs_longitude'] %></td>
+			<td><%= distance(@lat, @lon, station['gtfs_latitude'].to_f, station['gtfs_longitude'].to_f)%></td>
+		</tr>
 	<% end %>
-	<!-- <%= @location.first.latitude %>
-	<%= @location.first.longitude %> -->
-	</ul>
+	</tbody>
+	</table>
 </div>
