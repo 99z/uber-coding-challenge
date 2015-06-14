@@ -7,7 +7,6 @@
 		<li><%= station['name'] %>, <%= station['abbr'] %>, <%= station['gtfs_latitude'] %>,
 			  <%= station['gtfs_longitude'] %></li>
 	<% end %> -->
-	<%= @ip_address.latitude %>
-	<%= @ip_address.longitude %>
+	<%= @ip_address.first.state %>
 	</ul>
 </div>
