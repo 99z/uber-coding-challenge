@@ -1,3 +1,8 @@
+INITIAL NOTES:
+==================================
+
+Hey there! This challenge is being completed by [Trevor Elwell](http://trevorelwell.me). I'll add my thoughts and notes here as I go along.
+
 Coding challenge or existing code?
 ==================================
 
