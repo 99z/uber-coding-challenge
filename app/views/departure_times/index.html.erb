@@ -27,7 +27,8 @@
 	</thead>
 	<% @departures['root']['station']['item'].each do |departure| %>
 	<tbody>
-		<% if departure['origTime'].to_time >= Time.now.in_time_zone('America/Los_Angeles') %>
+		<% Time.zone = 'America/Los_Angeles' %>
+		<% if Time.zone.parse(departure['origTime']) >= Time.zone.now %>
 			<tr>
 				<td><%= departure['trainHeadStation'] %></td>
 				<td><%= departure['origTime'] %></td>
