@@ -25,14 +25,14 @@ As you'll notice, our solution is not focused on testing, but the UX, clarity, a
 Problems Encountered:
 ==================================
 
-1) Spoofing an IP on localhost.
+**1) Spoofing an IP on localhost.**
 
 We ran into a wall quickly because we wanted to test our our cool new Geocoder gem but couldn't try out the IP geolocating functionality because neither one of us could get our application to return an IP address. Since we were both running rails locally whenever we ran something like `request.remote_ip` it would return `127.0.0.1` or `::1` or similar. When this was searched using the Geocoder tool it would return `nil` and was rather useless.
 
 We found some solace through [stack overflow](http://stackoverflow.com/questions/3887943/get-real-ip-address-in-local-rails-development-environment), but after some initial frustration decided that the best way to move forward was to rely on `request.remote_ip` working properly once we actually pushed it to Heroku and hard coding in the IP during local testing. This actually proved very useful because we could try different IP addresses with the geolocater to ensure it was functioning properly. 
 
 
-2) Finding the closest BART station.
+**2) Finding the closest BART station.**
 
 Once we got past the problem of finding the user's IP address and geolocating it (returning latitude and longitude) we then reached the problem of how to actually find the closest BART station to the user. The good news is the BART API gives us the lat and lon of all of the BART stations. The bad news was, we didn't know what to do with these at first. 
 
@@ -40,7 +40,7 @@ Then we found a gem called [GeoDistance](https://github.com/kristianmandrup/geo-
 
 Well there was, and it was called high-school geometry. Remember the handy old [distance equation](http://cs.selu.edu/~rbyrd/math/distance/)? It returns the distance between two points on the coordinate plane. All we had to do was treat two latitude and longitude points as plain old points and take the point of view of the early church and pretend that the world was flat and we were able to calculate distance between our user and all of the BART stations! Obviously a Haversine equation would be more accurate, but at these distances we decided that not factoring in the curvature of the Earth was not likely to result in the incorrect answer. So high-school math FTW with this problem!
 
-3) Getting the right time.
+**3) Getting the right time.**
 
 Everything was working the way we wanted, we were happy and ready to push things up to Heroku. After the obligatory 50 problems that come with pushing to Heroku, we got it running. Except, of course, now our cutoff time was wrong when you went to the application. We wanted the application to function in the Pacific timezone and only give times based on that, but apparently wherever Heroku's servers are located was messing with our `Time` functions and resulted in our users being shown a lot of times at 4AM. 
 
