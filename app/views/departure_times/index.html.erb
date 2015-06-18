@@ -1,26 +1,42 @@
 <div class="container">
+	<h2>BART Departure Timetable</h2>
+	<p>The table below shows all departing BART trains from the station
+		 geographically closest to you.</p>
+	<p>Use the dropdown menu to change your desired departure station if you want
+		 to see departure times for other stations.</p>
+	<p>Click the button the right to change the departure station back to the one
+		 closest to you.</p>
+
 	<h2>Departures from <%= @station_code %></h2>
 
-	<form method="GET">
-		<select name="station_code">
-			<% @station_list['root']['stations']['station'].each do |station| %>
-				<% if params[:station_code] == station['abbr']%>
-					<option value="<%= station['abbr'] %>" selected="selected" ><%= station['name'] %></option>
-				<% else %>
-					<option value="<%= station['abbr'] %>" ><%= station['name'] %></option>
-				<% end %>
-			<% end %>
-		</select>
-		<input type="submit" class="btn btn-primary" value="Select Station">
-		<a class="btn btn-info" href="/">Show Trains for Closest Location</a>
-	</form>
+<div class="row">
 
+	<div class="col-sm-6">
+		<form method="GET">
+			Change departure station:
+			<select name="station_code" onchange='if(this.value != 0) { this.form.submit(); }'>
+				<% @station_list['root']['stations']['station'].each do |station| %>
+					<% if params[:station_code] == station['abbr']%>
+						<option value="<%= station['abbr'] %>" selected="selected" ><%= station['name'] %></option>
+					<% else %>
+						<option value="<%= station['abbr'] %>" ><%= station['name'] %></option>
+					<% end %>
+				<% end %>
+			</select>
+		</form>
+	</div>
+
+	<div class="col-sm-6 text-right">
+		<a class="btn btn-primary" href="/">Show Trains for Closest Station</a>
+	</div>
+
+</div>
 
 	<table class="table">
 	<thead>
 		<tr>
-			<td><b>Abbr.</b></td>
-			<td><b>Departure time from <%= @station_code['abbr'] %></b></td>
+			<td><b>Destination</b></td>
+			<td><b>Departure time from <%= @station_code %></b></td>
 			<td><b>Arrival time</b></td>
 			<td><b>Train number</b></td>
 		</tr>
