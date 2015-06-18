@@ -1,63 +1,55 @@
-Initial Notes:
+Introduction:
 ==================================
 
-Hey there! This challenge is being completed by [Trevor Elwell](http://trevorelwell.me). I'll add my thoughts and notes here as I go along.
+Hey there! This submission is created by [Trevor Elwell](http://trevorelwell.me) and [Nick Montanaro](https://github.com/nicoNaN/). Our solution is to the [Uber coding challenge](https://github.com/uber/coding-challenge-tools/blob/master/coding_challenge.md) departure times problem.
 
-Coding challenge or existing code?
+Summary:
 ==================================
 
-The [coding challenge](coding_challenge.md) is optional if you already have
-some code that you're proud of and can share with us.
+We wanted to come up with a way for users to quickly find the next train leaving from their closest BART station. Our solution is a rails application which geolocates the user based on their IP address, and then tells them the departure times of the trains for that day which haven't left that station yet. Our two main tools were the [Geocoder gem](https://github.com/alexreisner/geocoder) and the [BART API](http://api.bart.gov/docs/overview/index.aspx). 
 
-Existing code
--------------
+How to use the app:
+==================================
 
-If you have existing code, please follow the following guidelines:
+**NOTE** This works best if you're located in/around the San Francisco area. [Our application](https://vast-taiga-9481.herokuapp.com/) will geolocate you based on your IP address and then determine which BART station is nearest to you. It will then tell you the next train leaving the station (in case you're in a rush to leave) and all of the trains leaving after it that day. You can also check the departures for other stations.
 
-* Include a link to the hosted repository (e.g. Github, Bitbucket...). We cannot
-  review archives or single files.
-* The repo should include a README that follows the [principles described
-  below](#readme) In particular, please make sure to include high-level
-  explanation about what the code is doing.
-* Ideally, the code you're providing:
-  * Has been written by you alone. If not, please tell us which part you wrote
-    and are most proud of in the README.
-  * Is leveraging web technologies.
-  * Is deployed and hosted somewhere.
+It's a pretty simple application from a UX perspective so there isn't much to explain!
 
-Readme
-------
+Approach:
+==================================
 
-Regardless of whether it's your own code or our coding challenge, write your
-README as if it was for a production service. Include the following items:
+For Nick and I this was our first pair programming excercise. We both have a lot of experience building applications and learning new concepts on our own, but going through the coding process with someone else watching was a challenge in itself. We both got the hang of it quickly, though, and we were able to work through the more difficult problems for the challenge.
 
-* Description of the problem and solution.
-* Whether the solution focuses on back-end, front-end or if it's full stack.
-* Reasoning behind your technical choices, including architectural. Trade-offs
-  you might have made, anything you left out, or what you might do differently
-  if you were to spend additional time on the project.
-* Link to other code you're particularly proud of.
-* Link to your resume or public profile.
-* Link to to the hosted application where applicable.
+As you'll notice, our solution is not focused on testing, but the UX, clarity, and correctness of the application is on point. It is a simple app that does one thing well: showing you the times of the trains that haven't left the closest BART station yet. (Note that this works best in the area surrounding San Francisco. Otherwise, you'll get the closest station to a far away place. For instance, coding in New York City I kept getting DALY station when I went onto the application.) 
 
-How we review
--------------
+Problems Encountered:
+==================================
 
-Your application will be reviewed by at least three of our engineers. The
-aspects of your code we will judge include:
+1) Spoofing an IP on localhost.
 
-* Clarity: does the README clearly explains the problem and solution?
-* Correctness: does the application do what was asked? If there is anything
-  missing, does the README explain why it is missing?
-* Code quality: is the code simple, easy to understand, and maintainable?  Are
-  there any code smells or other red flags?
-* Testing: how thorough are the automated tests? Will they be difficult to
-  change if the requirements of the application were to change?
-* UX: is the web interface understandable and pleasing to use?
-* Technical choices: do choices of libraries, databases, architecture etc. seem
-  appropriate for the chosen application?
+We ran into a wall quickly because we wanted to test our our cool new Geocoder gem but couldn't try out the IP geolocating functionality because neither one of us could get our application to return an IP address. Since we were both running rails locally whenever we ran something like `request.remote_ip` it would return `127.0.0.1` or `::1` or similar. When this was searched using the Geocoder tool it would return `nil` and was rather useless.
 
-Coding Challenge
-----------------
+We found some solace through [stack overflow](http://stackoverflow.com/questions/3887943/get-real-ip-address-in-local-rails-development-environment), but after some initial frustration decided that the best way to move forward was to rely on `request.remote_ip` working properly once we actually pushed it to Heroku and hard coding in the IP during local testing. This actually proved very useful because we could try different IP addresses with the geolocater to ensure it was functioning properly. 
 
-[Guidelines can be found here.](coding_challenge.md)
+
+2) Finding the closest BART station.
+
+Once we got past the problem of finding the user's IP address and geolocating it (returning latitude and longitude) we then reached the problem of how to actually find the closest BART station to the user. The good news is the BART API gives us the lat and lon of all of the BART stations. The bad news was, we didn't know what to do with these at first. 
+
+Then we found a gem called [GeoDistance](https://github.com/kristianmandrup/geo-distance) which gives you the distance between two latitudes and longitudes. Hell, you can even use Haversine functions to make sure it's as exact as possible. Unfortunately, though, running a Haversine function on each BART station and isn't cheap and our app kept crashing whenever we ran it locally. There had to be a simpler way to do this!
+
+Well there was, and it was called high-school geometry. Remember the handy old [distance equation](http://cs.selu.edu/~rbyrd/math/distance/)? It returns the distance between two points on the coordinate plane. All we had to do was treat two latitude and longitude points as plain old points and take the point of view of the early church and pretend that the world was flat and we were able to calculate distance between our user and all of the BART stations! Obviously a Haversine equation would be more accurate, but at these distances we decided that not factoring in the curvature of the Earth was not likely to result in the incorrect answer. So high-school math FTW with this problem!
+
+3) Getting the right time.
+
+Everything was working the way we wanted, we were happy and ready to push things up to Heroku. After the obligatory 50 problems that come with pushing to Heroku, we got it running. Except, of course, now our cutoff time was wrong when you went to the application. We wanted the application to function in the Pacific timezone and only give times based on that, but apparently wherever Heroku's servers are located was messing with our `Time` functions and resulted in our users being shown a lot of times at 4AM. 
+
+Our solution is straightforward, but since neither of us were well acquainted with the `Time` or `TimeZone` modules it took a bit to find the proper solution. In order to accomplish what we wanted we first set a time zone using `Time.zone = 'America/Los_Angeles'` and then based our cutoff times on that timezone using `if Time.zone.parse(departure['origTime']) >= Time.zone.now` (this block determines whether or not to show a BART API item). But with this push our app is showing the correct times no matter where you look! 
+
+
+Conclusion:
+==================================
+
+I'm very happy that we went through with this project. Not only did we come up with a good solution to a problem that we partially defined but we learned a lot about pair programming. There are a lot of `#ToDos` that we would like to accomplish if we were trying to fully flesh out this application. But as a learning excercise we took it in a very good direction and got a lot of use out of it.
+
+Please comment with any questions or critiques- we're always interested in learning how we can improve.  
