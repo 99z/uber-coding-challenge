@@ -3,7 +3,7 @@ class DepartureTimesController < ApplicationController
 	def index
 		# @ip = IP.new
 
-		location = Geocoder.search(request.remote_ip)
+		location = Geocoder.search(HTTParty.get('http://www.telize.com/ip').body)
 
 		@lat = location.first.latitude
 		@lon = location.first.longitude
