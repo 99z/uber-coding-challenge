@@ -4,7 +4,7 @@ module DepartureTimesHelper
   end
 
   def closest_station(station_list, lat, lon)
-    closest_station = {'distance' => 1000000}
+    closest_station = {'distance' => 1_000_000}
 
   	station_list['root']['stations']['station'].each do |station|
       station['distance'] = distance(@lat, @lon, station['gtfs_latitude'].to_f, station['gtfs_longitude'].to_f)
