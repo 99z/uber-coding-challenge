@@ -11,7 +11,7 @@ We wanted to come up with a way for users to quickly find the next train leaving
 How to use the app:
 ==================================
 
-**NOTE** This works best if you're located in/around the San Francisco area. [Our application](https://vast-taiga-9481.herokuapp.com/) will geolocate you based on your IP address and then determine which BART station is nearest to you. It will then tell you the next train leaving the station (in case you're in a rush to leave) and all of the trains leaving after it that day. You can also check the departures for other stations.
+**NOTE** This works best if you're located in/around the San Francisco area. [Our application](https://aqueous-brook-2026.herokuapp.com/) will geolocate you based on your IP address and then determine which BART station is nearest to you. It will then tell you the next train leaving the station (in case you're in a rush to leave) and all of the trains leaving after it that day. You can also check the departures for other stations.
 
 It's a pretty simple application from a UX perspective so there isn't much to explain!
 
@@ -52,4 +52,4 @@ Conclusion:
 
 I'm very happy that we went through with this project. Not only did we come up with a good solution to a problem that we partially defined but we learned a lot about pair programming. There are a lot of `#ToDos` that we would like to accomplish if we were trying to fully flesh out this application. But as a learning excercise we took it in a very good direction and got a lot of use out of it.
 
-Please comment with any questions or critiques- we're always interested in learning how we can improve.  
+Please comment with any questions or critiques- we're always interested in learning how we can improve.
